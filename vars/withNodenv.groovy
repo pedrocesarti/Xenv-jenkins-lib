@@ -5,14 +5,24 @@ def call(version='6.14.4', cl) {
   echo "Setting up NodeJS version ${version}!"
   
   if (!fileExists("${JENKINS_HOME}/.nodenv/bin/nodenv")) {
-    install()
+    installNodenv()
   } else {
-    echo "Nodenv located!"
+    print "Nodenv located!"
+  }
+
+  if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
+     installVersion()
+  } else {
+    print "Version already installed"    
   }
 
   cl()
 }
 
-def install() {
-    echo "Lets install!!!"
+def installNodenv() {
+     print "Lets install Nodenv!!!"
+}
+
+def installVersion() {
+    print "Lets install required version!!!"
 }
