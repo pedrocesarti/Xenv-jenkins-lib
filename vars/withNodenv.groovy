@@ -16,7 +16,9 @@ def call(version='6.14.4', cl) {
     print "Version already installed"    
   }
 
-  cl()
+  withEnv(["PATH=${JENKINS_HOME}/.nodenv/versions/${version}/:$PATH"]) {
+    cl()
+  }
 }
 
 def installNodenv() {
