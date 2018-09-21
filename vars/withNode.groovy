@@ -1,5 +1,3 @@
-#!/usr/bin/env groovy
-
 def call(version='6.14.4', cl) {
 
   echo "Setting up NodeJS version ${version}!"
