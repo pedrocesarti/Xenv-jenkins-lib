@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(version='6.14.4', cl) {
+def call(version='6.14.4', install=null, cl) {
 
   print "Setting up NodeJS version ${version}!"
   
@@ -17,6 +17,10 @@ def call(version='6.14.4', cl) {
     sh "nodenv local ${version}"
     cl()
   }
+
+  if (install == 'clean') {
+    deleteVersion("${version}")
+  }
 }
 
 def installNodenv() {
@@ -31,4 +35,9 @@ def installVersion(version) {
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
     sh "nodenv install ${version}"
   }
+}
+
+def deleteVersion(version) {
+  sh "rm -rf ${JENKINS_HOME}/.nodenv/versions/${version}"    
+  sh "rm -rf ${JENKINS_HOME}/.nodenv/plugins/node-build/share/node-build/${version}"    
 }
