@@ -11,7 +11,7 @@ def call(version='6.14.4', cl) {
   }
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
-     installVersion($version)
+     installVersion("${version}")
   } else {
     print "Version already installed"    
   }
