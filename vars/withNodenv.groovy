@@ -32,5 +32,7 @@ def installNodenv() {
 
 def installVersion(version) {
   print "Lets install required version!!!"
-  sh "nodenv install ${version} -s"
+  withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
+    sh "nodenv install ${version} -s"
+  }
 }
