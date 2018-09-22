@@ -16,7 +16,8 @@ def call(version='6.14.4', cl) {
     print "Version already installed"    
   }
 
-  withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
+  withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
+    sh "nodenv rehash"
     sh "nodenv local ${version}"
     cl()
   }
