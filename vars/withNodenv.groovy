@@ -17,10 +17,7 @@ def call(version='6.14.4', cl) {
   }
 
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
-    sh '''
-    eval "$(nodenv init -)"
-    nodenv local ${version}
-    '''
+    sh "nodenv local ${version}"
     cl()
   }
 }
