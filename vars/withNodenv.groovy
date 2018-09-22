@@ -2,18 +2,14 @@
 
 def call(version='6.14.4', cl) {
 
-  echo "Setting up NodeJS version ${version}!"
+  print "Setting up NodeJS version ${version}!"
   
   if (!fileExists("${JENKINS_HOME}/.nodenv/bin/nodenv")) {
     installNodenv()
-  } else {
-    print "Nodenv located!"
   }
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
      installVersion("${version}")
-  } else {
-    print "Version already installed"    
   }
 
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
@@ -33,6 +29,6 @@ def installNodenv() {
 def installVersion(version) {
   print "Lets install required version!!!"
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
-    sh "nodenv install ${version} -s"
+    sh "nodenv install ${version}"
   }
 }
