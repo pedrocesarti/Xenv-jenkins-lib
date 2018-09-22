@@ -5,13 +5,19 @@ For those who are:
 2. Struggling getting NVM, RVM and virtualenv working in your pipeline
 3. Or just having a bad time setting up a bunch of plugins
 
-- I HAVE EXCITING NEWS FOR YOU!!! 
+I HAVE EXCITING NEWS FOR YOU!!! 
 
 
-Using the power of [Jenkins Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/), [Nodenv](https://github.com/nodenv/nodenv), [Rbenv](https://github.com/rbenv/rbenv) and [Pyenv](https://github.com/pyenv/pyenv) I have created small library that allow you to import small methods to your pipeline that does all the heavy lifting for you installing the tools and different versions NodeJS, Ruby and Python (like meta-runners).
+Using the power of:
+- [Jenkins Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)
+- [Nodenv](https://github.com/nodenv/nodenv)
+- [Rbenv](https://github.com/rbenv/rbenv)
+- [Pyenv](https://github.com/pyenv/pyenv) 
+
+I created this small library that allow you to import small to your pipeline methods that do all the heavy lifting on installing the tools and different versions of NodeJS, Ruby and Python (like meta-runners).
 
 
-Something simple like this:
+The main goal is something simple like this:
 ```groovy
 script {
     withNodenv('0.12.14') {
@@ -44,10 +50,17 @@ With the [Global Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-l
 ### Using
 Please have a look in the [examples](./examples/) folder to see how to use the methods exported by this lib.
 
+withNodenv(version, method)
+* __version__ is going to specify what version of NodeJS you want to run your code, default version is _6.14.4_.
+* __method__ default is to keep all the versions of NodeJS installed, if set for **clean** it's going to remove the version after using it.
 
-
-
-
+```groovy
+  script {
+    withNodenv('6.14.4', 'clean') {
+      sh "node --version"
+    }
+  }
+```
 
 
 Enjoy! :)

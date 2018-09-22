@@ -1,0 +1,41 @@
+#!/usr/bin/env groovy
+
+@Library('xenv-jenkins-lib') _
+// or 
+// library identifier: 'xenv-jenkins-lib@master', 
+//         retriever: modernSCM([$class: 'GitSCMSource', 
+//         remote: 'https://github.com/pedrocesar-ti/Xenv-jenkins-lib.git'])
+
+
+pipeline {
+  agent any
+  stages {
+    stage('NodeJS') {
+      steps {
+        script {
+          withNodenv('0.6.10', 'clean') {
+            sh "node --version"
+          }
+        }
+      }    
+    }
+    stage('Python') {
+      steps {
+        script {
+          withPyenv() {
+            sh "python --version"
+          }
+        }
+      }    
+    }
+    stage('Ruby') {
+      steps {
+        script {
+          withRbenv() {
+            sh "ruby --version"
+          }
+        }
+      }    
+    }
+  }
+}
