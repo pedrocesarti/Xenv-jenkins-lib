@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+// This example should be placed on the same folder where your package.json is encontered so your npm commands will work fine.
+
 @Library('xenv-jenkins-lib') _
 // or 
 // library identifier: 'xenv-jenkins-lib@master', 
@@ -10,29 +12,38 @@
 pipeline {
   agent any
   stages {
-    stage('NodeJS') {
+    stage('Unit tests - v0.12.10') {
       steps {
         script {
-          withNodenv('0.6.10', 'clean') {
-            sh "node --version"
+          withNodenv('0.12.10', 'clean') {
+            sh "npm install && npm test"
           }
         }
       }    
     }
-    stage('Python') {
+    stage('Unit tests - v4.2.3') {
       steps {
         script {
-          withPyenv() {
-            sh "python --version"
+          withNodenv('4.2.3', 'clean') {
+            sh "npm install && npm test"
           }
         }
       }    
     }
-    stage('Ruby') {
+    stage('Unit tests - v6.14.4') {
       steps {
         script {
-          withRbenv() {
-            sh "ruby --version"
+          withNodenv('6.14.4') {
+            sh "npm install && npm test"
+          }
+        }
+      }    
+    }
+    stage('Build and Publish - v6.14.4') {
+      steps {
+        script {
+          withNodenv('6.14.4') {
+            sh "npm run build && npm publish"
           }
         }
       }    

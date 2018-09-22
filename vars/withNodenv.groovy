@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
+import info.pedrocesar.utils
 
-def call(version='6.14.4', install=null, cl) {
+def call(version='6.14.4', method=null, cl) {
 
   print "Setting up NodeJS version ${version}!"
   
@@ -18,16 +19,23 @@ def call(version='6.14.4', install=null, cl) {
     cl()
   }
 
-  if (install == 'clean') {
+  if (method == 'clean') {
     deleteVersion("${version}")
+  } else if (method == 'purge') {
+    purgeAllVersions('nodenv')
   }
 }
 
 def installNodenv() {
   print "Lets install Nodenv!!!"
-  sh "git clone https://github.com/nodenv/nodenv.git ${JENKINS_HOME}/.nodenv"
-  sh "cd ${JENKINS_HOME}/.nodenv && src/configure && make -C src"
-  sh "git clone https://github.com/nodenv/node-build.git ${JENKINS_HOME}/.nodenv/plugins/node-build"
+  sh '''
+     git clone https://github.com/nodenv/nodenv.git ${JENKINS_HOME}/.nodenv"
+     git clone https://github.com/nodenv/node-build.git ${JENKINS_HOME}/.nodenv/plugins/node-build
+  '''
+
+  dir ("${JENKINS_HOME}/.nodenv") {
+    sh "src/configure --without-ssl && make -C src"     
+  }
 }
 
 def installVersion(version) {
@@ -38,6 +46,7 @@ def installVersion(version) {
 }
 
 def deleteVersion(version) {
-  sh "rm -rf ${JENKINS_HOME}/.nodenv/versions/${version}"    
-  sh "rm -rf ${JENKINS_HOME}/.nodenv/plugins/node-build/share/node-build/${version}"    
+  print "Lets Deleter Node ${version}!!!"
+  def versionDir = "${JENKINS_HOME}/.nodenv/versions/${version}"
+  versionDir.deleteDir()
 }
