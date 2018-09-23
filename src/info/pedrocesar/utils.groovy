@@ -20,6 +20,6 @@ def deleteVersion(String metarunner, String version) {
 
 @NonCPS
 def installVersion(String metarunner, String version) {
-  sh "env"
   sh "${metarunner} install ${version}"
+  print "${metarunner} install ${version}"
 }
