@@ -5,8 +5,7 @@ import com.cloudbees.groovy.cps.NonCPS
 @NonCPS
 def installMetarunner(String metarunner){
 
-  sh "git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}"
-  sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
+  sh "git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner} && git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
 
 //if (metarunner != 'pyenv') {
 //    print "It's not python"
