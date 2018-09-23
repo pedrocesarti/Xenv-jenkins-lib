@@ -7,7 +7,7 @@ def call(version='6.14.4', method=null, cl) {
   print "Setting up NodeJS version ${version}!"
   
   if (!fileExists("${JENKINS_HOME}/.${metarunner}/bin/${metarunner}")) {
-    installNodenv()
+    installNodenv(metarunner)
   }
 
   if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
