@@ -23,7 +23,7 @@ def call(version='6.14.4', method=null, cl) {
 
   if (method == 'clean') {
     print "Removing NodeJS ${version}!!!"
-    utils().deleteVersion(metarunner, version)
+    new utils().deleteVersion(metarunner, version)
   } 
   
 }
