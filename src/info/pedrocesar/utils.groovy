@@ -5,7 +5,12 @@ import com.cloudbees.groovy.cps.NonCPS
 @NonCPS
 def installMetarunner(String metarunner){
 
-  sh "git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner} && git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
+  sh '''
+  git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}
+  git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
+  cd ${JENKINS_HOME}/.${metarunner}
+  src/configure --without-ssl && make -C src
+  '''
 
 //if (metarunner != 'pyenv') {
 //    print "It's not python"
@@ -19,10 +24,10 @@ def installMetarunner(String metarunner){
 //      print "no metarunner found it!"    
 //    }
 //  }
-
-  dir ("${JENKINS_HOME}/.${metarunner}") {
-    sh "src/configure --without-ssl && make -C src"
-  }
+//
+//  dir ("${JENKINS_HOME}/.${metarunner}") {
+//    sh "src/configure --without-ssl && make -C src"
+//  }
 }
 
 @NonCPS
