@@ -1,0 +1,74 @@
+#!/usr/bin/env groovy
+
+// This example should be placed on the same folder where your package.json is encontered so your npm commands will work fine.
+
+@Library('xenv-jenkins-lib') _
+// or 
+// library identifier: 'xenv-jenkins-lib@master', 
+//         retriever: modernSCM([$class: 'GitSCMSource', 
+//         remote: 'https://github.com/pedrocesar-ti/Xenv-jenkins-lib.git'])
+
+
+@Library('xenv-jenkins-lib') _
+
+pipeline {
+  agent any
+  stages {
+    stage('NodeJS 6.14.4') {
+      steps {
+        script {
+          withNodenv('6.14.4', 'clean') {
+            sh "node --version"
+          }
+        }
+      }
+    }
+    stage('NodeJS 9.11.0') {
+      steps {
+        script {
+          withNodenv('9.11.0') {
+            sh "node --version"
+          }
+        }
+      }
+    }
+    stage('Ruby 2.5.1') {
+      steps {
+        script {
+          withRbenv() {
+            sh "ruby --version"
+          }
+        }
+      }
+    }
+    stage('Ruby 2.3.0') {
+      steps {
+        script {
+          withRbenv.purgeAll('rbenv')
+          withRbenv('2.3.0', 'clean') {
+              sh "ruby --version"
+          }
+        }
+      }
+    }
+    stage('Python 2.7') {
+      steps {
+        script {
+          withPyenv('2.7') {
+            sh "python --version"
+          }
+        }
+      }
+    }
+    stage('Python 3.7.0') {
+      steps {
+        script {
+          withPyenv() {
+            sh "python --version"
+          }
+          withPyenv.purgeAll('pyenv')
+        }
+      }
+    }
+  }
+}
