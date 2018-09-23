@@ -8,12 +8,12 @@ def call(version='6.14.4', method=null, cl) {
   
   if (!fileExists("${JENKINS_HOME}/.${metarunner}/bin/${metarunner}")) {
     installNodenv(metarunner)
+    sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
   }
 
   if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
     withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
       utils.installVersion(metarunner, version)
-      sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
     }
   }
 
