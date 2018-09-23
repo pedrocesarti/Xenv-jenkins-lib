@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
-def utils = new info.pedrocesar.utils()
 
 def call(version='6.14.4', method=null, cl) {
   def metarunner = 'nodenv'
+  def utils = new info.pedrocesar.utils()
 
   print "Setting up NodeJS version ${version}!"
   
@@ -31,7 +31,7 @@ def call(version='6.14.4', method=null, cl) {
 }
 
 def installNodenv() {
-  utils.installMetarunner(metarunner)
+  new info.pedrocesar.utils().installMetarunner(metarunner)
 }
 
 def purgeAll() {
