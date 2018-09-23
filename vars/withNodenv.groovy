@@ -23,9 +23,10 @@ def call(version='6.14.4', method=null, cl) {
 
   if (method == 'clean') {
     print "Removing NodeJS ${version}!!!"
-    control.deleteVersion(metarunner, version)
+    withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+      control.deleteVersion(metarunner, version)
+    }
   } 
-  
 }
 
 def installNodenv() {
