@@ -7,10 +7,15 @@ def installMetarunner(String metarunner){
   sh "git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}"
 
   if (metarunner != 'pyenv') {
+    print "It's not python"
     if (metarunner == 'nodenv') {
+      print "its NODE"
       sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
     } else if (metarunner == 'rbenv') {
-      sh "git clone https://github.com/${metarunner}/ruby-build.git ${JENKINS_HOME}/.${metarunner}/plugins/ruby-bu    ild"
+      print "It's Ruby"
+      sh "git clone https://github.com/${metarunner}/ruby-build.git ${JENKINS_HOME}/.${metarunner}/plugins/ruby-build"
+    } else {
+      print "no metarunner found it!"    
     }
   }
 
