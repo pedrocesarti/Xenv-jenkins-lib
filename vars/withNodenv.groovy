@@ -3,6 +3,7 @@ import info.pedrocesar.utils
 
 def call(version='6.14.4', method=null, cl) {
   def metarunner = 'nodenv'
+  def control = utils()
 
   print "Setting up NodeJS version ${version}!"
   
@@ -12,7 +13,7 @@ def call(version='6.14.4', method=null, cl) {
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
      print "Lets install Node ${version}!!!"
-     utils.installVersion(metarunner, version)
+     control.installVersion(metarunner, version)
   }
 
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
@@ -23,7 +24,7 @@ def call(version='6.14.4', method=null, cl) {
 
   if (method == 'clean') {
     print "Removing NodeJS ${version}!!!"
-    new utils().deleteVersion(metarunner, version)
+    control.deleteVersion(metarunner, version)
   } 
   
 }
@@ -41,5 +42,5 @@ def installNodenv() {
 }
 
 def purgeAll() {
-  utils.purgeAllVersions(metarunner)
+  control.purgeAllVersions(metarunner)
 }
