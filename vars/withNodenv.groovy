@@ -31,7 +31,7 @@ def call(version='6.14.4', method=null, cl) {
 }
 
 def installNodenv(metarunner) {
-  utils.installMetarunner(metarunner)
+  new info.pedrocesar.utils().installMetarunner(metarunner)
 }
 
 def purgeAll(metarunner) {
