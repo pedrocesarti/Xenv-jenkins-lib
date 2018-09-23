@@ -6,9 +6,9 @@ import com.cloudbees.groovy.cps.NonCPS
 def installMetarunner(String metarunner){
 
   if (metarunner == 'nodenv') {
-    def buildname = 'node'
+    def builder = 'node'
   } else if (metarunner == 'rbenv') {
-    def buildname = 'ruby'
+    def builder = 'ruby'
   }
 
   sh """ 
@@ -16,7 +16,7 @@ def installMetarunner(String metarunner){
   cd ${JENKINS_HOME}/.${metarunner}
   src/configure --without-ssl && make -C src
   """
-  // git clone https://github.com/${metarunner}/${buildname}-build.git ${JENKINS_HOME}/.${metarunner}/plugins/${buildname}-build
+  sh "git clone https://github.com/${metarunner}/${builder}-build.git ${JENKINS_HOME}/.${metarunner}/plugins/${builder}-build"
 }
 
 @NonCPS
