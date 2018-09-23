@@ -4,7 +4,7 @@ import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
 def purgeAllVersions(String metarunner) {
-  File directory = new File("${JENKINS}/.${metarunner}/versions/")
+  File directory = new File("${JENKINS_HOME}/.${metarunner}/versions/")
 
   directory.listFiles().each{
     it.deleteDir()
@@ -13,7 +13,7 @@ def purgeAllVersions(String metarunner) {
 
 @NonCPS
 def deleteVersion(String metarunner, String version) {
-  File directory = new File("${JENKINS}/.${metarunner}/versions/${version}")
+  File directory = new File("${JENKINS_HOME}/.${metarunner}/versions/${version}")
   
   directory.deleteDir()
 }
