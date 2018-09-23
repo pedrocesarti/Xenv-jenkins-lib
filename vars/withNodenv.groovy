@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
+def utils = new info.pedrocesar.utils()
 
 def call(version='6.14.4', method=null, cl) {
   def metarunner = 'nodenv'
-  def control = new info.pedrocesar.utils()
 
   print "Setting up NodeJS version ${version}!"
   
@@ -13,7 +13,7 @@ def call(version='6.14.4', method=null, cl) {
   if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
      print "Installing NodeJS ${version}!!!"
      withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
-       control.installVersion(metarunner, version)
+       utils.installVersion(metarunner, version)
      }
   }
 
@@ -25,15 +25,15 @@ def call(version='6.14.4', method=null, cl) {
   if (method == 'clean') {
     print "Removing NodeJS ${version}!!!"
     withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
-      control.deleteVersion(metarunner, version)
+      utils.deleteVersion(metarunner, version)
     }
   } 
 }
 
 def installNodenv() {
-  control.installMetarunner(metarunner)
+  utils.installMetarunner(metarunner)
 }
 
 def purgeAll() {
-  control.purgeAllVersions(metarunner)
+  utils.purgeAllVersions(metarunner)
 }
