@@ -19,7 +19,7 @@ def installMetarunner(String metarunner){
 //    } else {
 //      print "no metarunner found it!"    
 //    }
-  }
+//  }
 
   dir ("${JENKINS_HOME}/.${metarunner}") {
     sh "src/configure --without-ssl && make -C src"
