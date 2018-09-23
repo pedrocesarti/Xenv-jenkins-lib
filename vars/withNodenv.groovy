@@ -10,7 +10,8 @@ def call(version='6.14.4', method=null, cl) {
   }
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
-     installVersion("${version}")
+     print "Lets install Node ${version}!!!"
+     installVersion("nodenv", version)
   }
 
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
@@ -20,10 +21,10 @@ def call(version='6.14.4', method=null, cl) {
   }
 
   if (method == 'clean') {
-    deleteVersion("${version}")
-  } else if (method == 'purge') {
-    purgeAllVersions('nodenv')
-  }
+    print "Removing NodeJS ${version}!!!"
+    deleteVersion(version)
+  } 
+  
 }
 
 def installNodenv() {
@@ -38,15 +39,6 @@ def installNodenv() {
   }
 }
 
-def installVersion(version) {
-  print "Lets install Node ${version}!!!"
-  withEnv(["PATH=${JENKINS_HOME}/.nodenv/bin/:$PATH"]) {
-    sh "nodenv install ${version}"
-  }
-}
-
-def deleteVersion(version) {
-  print "Lets Deleter Node ${version}!!!"
-  def versionDir = "${JENKINS_HOME}/.nodenv/versions/${version}"
-  versionDir.deleteDir()
+def purgeAll() {
+  purgeAllVersions('nodenv')
 }
