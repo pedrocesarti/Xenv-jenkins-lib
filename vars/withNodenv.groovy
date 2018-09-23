@@ -2,7 +2,7 @@
 import info.pedrocesar.utils
 
 def call(version='6.14.4', method=null, cl) {
-  def metarunner = "nodenv"
+  def metarunner = 'nodenv'
 
   print "Setting up NodeJS version ${version}!"
   
@@ -23,7 +23,7 @@ def call(version='6.14.4', method=null, cl) {
 
   if (method == 'clean') {
     print "Removing NodeJS ${version}!!!"
-    utils.deleteVersion(metarunner, version)
+    utils().deleteVersion(metarunner, version)
   } 
   
 }

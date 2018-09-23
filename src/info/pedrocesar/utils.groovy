@@ -3,7 +3,7 @@ package info.pedrocesar
 import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
-def purgeAllVersions(metarunner=null) {
+def purgeAllVersions(String metarunner) {
   File directory = new File("${JENKINS}/.${metarunner}/versions/")
 
   directory.listFiles().each{
@@ -12,14 +12,14 @@ def purgeAllVersions(metarunner=null) {
 }
 
 @NonCPS
-def deleteVersion(metarunner=null, version=null) {
+def deleteVersion(String metarunner, String version) {
   File directory = new File("${JENKINS}/.${metarunner}/versions/${version}")
   
   directory.deleteDir()
 }
 
 @NonCPS
-def installVersion(metarunner=null, version=null) {
+def installVersion(String metarunner, String version) {
   print "Lets install ${metarunner} ${version}!!!"
   withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
     sh "${metarunner} install ${version}"
