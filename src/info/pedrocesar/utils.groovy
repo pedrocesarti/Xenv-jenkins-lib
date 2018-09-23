@@ -7,7 +7,7 @@ def installMetarunner(String metarunner){
 
   sh """ 
   git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}
-  git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
+  git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build
   cd ${JENKINS_HOME}/.${metarunner}
   src/configure --without-ssl && make -C src
   """
