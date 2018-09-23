@@ -20,8 +20,8 @@ def deleteVersion(String metarunner, String version) {
 
 @NonCPS
 def installVersion(String metarunner, String version) {
-  print "Lets install ${metarunner} ${version}!!!"
   withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+    sh "env"
     sh "${metarunner} install ${version}"
   }
 }

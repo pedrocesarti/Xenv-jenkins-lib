@@ -11,7 +11,7 @@ def call(version='6.14.4', method=null, cl) {
   }
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
-     print "Lets install Node ${version}!!!"
+     print "Installing NodeJS ${version}!!!"
      control.installVersion(metarunner, version)
   }
 
