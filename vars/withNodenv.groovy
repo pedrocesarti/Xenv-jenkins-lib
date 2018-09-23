@@ -12,7 +12,9 @@ def call(version='6.14.4', method=null, cl) {
 
   if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
      print "Installing NodeJS ${version}!!!"
-     control.installVersion(metarunner, version)
+     withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+       control.installVersion(metarunner, version)
+     }
   }
 
   withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
