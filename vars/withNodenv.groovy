@@ -1,9 +1,8 @@
 #!/usr/bin/env groovy
-import info.pedrocesar.utils
 
 def call(version='6.14.4', method=null, cl) {
   def metarunner = 'nodenv'
-  def control = utils()
+  def control = new info.pedrocesar.utils()
 
   print "Setting up NodeJS version ${version}!"
   
