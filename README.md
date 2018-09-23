@@ -1,7 +1,7 @@
 # Xenv-jenkins-lib
 
 For those who are:
-1. Sick managing different versions of NodeJS, Ruby or Python in your Jenkins Pipelines
+1. Sick managing different versions of NodeJS, Python or Ruby in your Jenkins Pipelines
 2. Struggling getting NVM, RVM and virtualenv working in your pipeline
 3. Or just having a bad time setting up a bunch of plugins
 
@@ -11,8 +11,8 @@ I HAVE EXCITING NEWS FOR YOU!!!
 Using the power of:
 - [Jenkins Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)
 - [nodenv](https://github.com/nodenv/nodenv)
-- [rbenv](https://github.com/rbenv/rbenv)
 - [pyenv](https://github.com/pyenv/pyenv)
+- [rbenv](https://github.com/rbenv/rbenv)
 
 I created this small library that allow you to import to your pipeline  methods that do all the heavy lifting on installing the tools and different versions of NodeJS, Ruby and Python (like meta-runners).
 
@@ -52,15 +52,42 @@ Please have a look in the [examples](./examples/) folder to see how to use the m
 
 #### withNodenv(version, method)
 * _version_ is going to specify what version of NodeJS you want to run your code, default version is _6.14.4_.
-* _method_ is going to inform the method if needs to delete the version after using it, the default method is to keep the installed version.
+* _method_ is going to define if the version should be deleted (clean) after used, the default method is to keep the installed versions, so you don't need to re-install every time.
 
 ```groovy
   script {
+    withNodenv.purgeAll('nodenv')
     withNodenv('6.14.4', 'clean') {
-      sh "node --version"
+      sh "node --version"    // v6.14.4
     }
   }
 ```
+> withNodenv.purgeAll('nodenv') - this method helps deleting all versions of NodeJS.
 
+#### withPyenv(version, method)
+* _version_ is going to specify what version of Python you want to run your code, default Python version is _3.7.0_.
+* _method_ is going to define if the version should be deleted (clean) after used, the default method is to keep the installed versions, so you don't need to re-install every time.
+
+```groovy
+  script {
+    withPyenv() {
+      sh "python --version"    // Python 3.7.0
+    }
+  }
+```
+> withPyenv.purgeAll('pyenv') - this method helps deleting all versions of Python.
+
+#### withRbenv(version, method)
+* _version_ is going to specify what version of Ruby you want to run your code, default Ruby version is _2.5.1_.
+* _method_ is going to define if the version should be deleted (clean) after used, the default method is to keep the installed versions, so you don't need to re-install every time.
+
+```groovy
+  script {
+    withRbenv('2.3.0') {
+      sh "ruby --version"    // ruby 2.3.0p0
+    }
+  }
+```
+> withRbenv.purgeAll('rbenv') - this method helps deleting all versions of Ruby.
 
 Enjoy! :)

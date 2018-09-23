@@ -1,0 +1,17 @@
+Install Rbenv and setup multiple versions of Ruby for your pipeline.
+
+Parameters:
+ * __version__ (default: '2.5.1'): set the Ruby version desired inside the pipeline.
+ * __method__ (default: 'keep'): option to keep or delete the version installed.
+
+Syntax:
+```
+  script {
+    withRbenv('2.3.0', 'clean') {
+      sh "ruby --version"
+    }
+  }
+```
+
+Other methods:
+ * withRbenv.purgeAll('rbenv') - Method used to cleanup all Ruby versions installed.

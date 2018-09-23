@@ -1,0 +1,17 @@
+Install Pyenv and setup multiple versions of Python for your pipeline.
+
+Parameters:
+ * __version__ (default: '3.7.0'): set the Python version desired inside the pipeline.
+ * __method__ (default: 'keep'): option to keep or delete the version installed.
+
+Syntax:
+```
+  script {
+    withPyenv('2.7', 'clean') {
+      sh "python --version"
+    }
+  }
+```
+
+Other methods:
+ * withPyenv.purgeAll('pyenv') - Method used to cleanup all Python versions installed.

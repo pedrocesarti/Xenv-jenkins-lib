@@ -1,34 +1,41 @@
 #!/usr/bin/env groovy
 
-def call(version='2.5.1', cl) {
+def call(version='2.5.1', method=null, cl) {
+  def metarunner = 'rbenv'
+  def utils = new info.pedrocesar.utils()
 
   print "Setting up Ruby version ${version}!"
   
-  if (!fileExists("${JENKINS_HOME}/.rbenv/bin/rbenv")) {
-    installRbenv()
+  if (!fileExists("${JENKINS_HOME}/.${metarunner}/bin/${metarunner}")) {
+    installRbenv(metarunner)
+    sh "git clone https://github.com/${metarunner}/ruby-build.git ${JENKINS_HOME}/.${metarunner}/plugins/ruby-build"
   }
 
-  if (!fileExists("${JENKINS_HOME}/.rbenv/versions/${version}/")) {
-     installVersion("${version}")
+  if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
+    withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+      utils.installVersion(metarunner, version)
+    }
   }
 
-  withEnv(["PATH=${JENKINS_HOME}/.rbenv/shims:${JENKINS_HOME}/.rbenv/bin/:$PATH", "RBENV_SHELL=sh"]) {
-    sh "rbenv rehash"
-    sh "rbenv local ${version}"
+  withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/shims:${JENKINS_HOME}/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
+    sh "${metarunner} rehash && ${metarunner} local ${version}"
     cl()
   }
+
+  if (method == 'clean') {
+    print "Removing Ruby ${version}!!!"
+    withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+      utils.deleteVersion(metarunner, version)
+    }
+  } 
 }
 
-def installRbenv() {
-  print "Lets install Rbenv!!!"
-  sh "git clone https://github.com/rbenv/rbenv.git ${JENKINS_HOME}/.rbenv"
-  sh "cd ${JENKINS_HOME}/.rbenv && src/configure && make -C src"
-  sh "git clone https://github.com/rbenv/ruby-build.git ${JENKINS_HOME}/.rbenv/plugins/ruby-build"
+def installRbenv(metarunner) {
+  print "Installing ${metarunner}"
+  new info.pedrocesar.utils().installMetarunner(metarunner)
 }
 
-def installVersion(version) {
-  print "Lets install Ruby ${version}!!!"
-  withEnv(["PATH=${JENKINS_HOME}/.rbenv/bin/:$PATH"]) {
-    sh "rbenv install ${version}"
-  }
+def purgeAll(metarunner) {
+  print "Removing all versions of ${metarunner}"
+  new info.pedrocesar.utils().purgeAllVersions(metarunner)
 }

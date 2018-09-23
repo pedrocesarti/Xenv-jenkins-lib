@@ -1,7 +1,7 @@
-Install Nodenv and setup multiple versions of Node for the pipeline.
+Install Nodenv and setup multiple versions of NodeJS for your pipeline.
 
 Parameters:
- * __version__ (default: '6.14.4'): set the NodeJS vrsion desired inside the pipeline.
+ * __version__ (default: '6.14.4'): set the NodeJS version desired inside the pipeline.
  * __method__ (default: 'keep'): option to keep or delete the version installed.
 
 Syntax:
