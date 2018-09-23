@@ -29,7 +29,7 @@ def call(version='6.14.4', method=null, cl) {
 def installNodenv() {
   print "Lets install Nodenv!!!"
   sh '''
-     git clone https://github.com/nodenv/nodenv.git ${JENKINS_HOME}/.nodenv"
+     git clone https://github.com/nodenv/nodenv.git ${JENKINS_HOME}/.nodenv
      git clone https://github.com/nodenv/node-build.git ${JENKINS_HOME}/.nodenv/plugins/node-build
   '''
 
