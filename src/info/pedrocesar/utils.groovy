@@ -5,29 +5,18 @@ import com.cloudbees.groovy.cps.NonCPS
 @NonCPS
 def installMetarunner(String metarunner){
 
+  if (metarunner == 'nodenv') {
+    def buildname = 'node'
+  } else if (metarunner == 'rbenv') {
+    def buildname = 'ruby'
+  }
+
   sh """ 
   git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}
-  git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build
   cd ${JENKINS_HOME}/.${metarunner}
   src/configure --without-ssl && make -C src
   """
-
-//if (metarunner != 'pyenv') {
-//    print "It's not python"
-//    if (metarunner == 'nodenv') {
-//      print "its NODE"
-//      sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
-//    } else if (metarunner == 'rbenv') {
-//      print "It's Ruby"
-//      sh "git clone https://github.com/${metarunner}/ruby-build.git ${JENKINS_HOME}/.${metarunner}/plugins/ruby-build"
-//    } else {
-//      print "no metarunner found it!"    
-//    }
-//  }
-//
-//  dir ("${JENKINS_HOME}/.${metarunner}") {
-//    sh "src/configure --without-ssl && make -C src"
-//  }
+  // git clone https://github.com/${metarunner}/${buildname}-build.git ${JENKINS_HOME}/.${metarunner}/plugins/${buildname}-build
 }
 
 @NonCPS
