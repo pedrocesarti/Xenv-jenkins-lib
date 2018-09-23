@@ -3,12 +3,26 @@ package info.pedrocesar
 import com.cloudbees.groovy.cps.NonCPS
 
 @NonCPS
-def purgeAllVersions(String metarunner) {
-  File directory = new File("${JENKINS_HOME}/.${metarunner}/versions/")
+def installMetarunner(String metarunner){
+  sh "git clone https://github.com/${metarunner}/${metarunner}.git ${JENKINS_HOME}/.${metarunner}"
 
-  directory.listFiles().each{
-    it.deleteDir()
-  } 
+  if (metarunner != 'pyenv') {
+    if (metarunner == 'nodenv') {
+      sh "git clone https://github.com/${metarunner}/node-build.git ${JENKINS_HOME}/.${metarunner}/plugins/node-build"
+    } else if (metarunner == 'rbenv') {
+      sh "git clone https://github.com/${metarunner}/ruby-build.git ${JENKINS_HOME}/.${metarunner}/plugins/ruby-bu    ild"
+    }
+  }
+
+  dir ("${JENKINS_HOME}/.${metarunner}") {
+    sh "src/configure --without-ssl && make -C src"
+  }
+}
+
+@NonCPS
+def installVersion(String metarunner, String version) {
+  sh "${metarunner} install ${version}"
+  print "${metarunner} install ${version}"
 }
 
 @NonCPS
@@ -19,7 +33,10 @@ def deleteVersion(String metarunner, String version) {
 }
 
 @NonCPS
-def installVersion(String metarunner, String version) {
-  sh "${metarunner} install ${version}"
-  print "${metarunner} install ${version}"
+def purgeAllVersions(String metarunner) {
+  File directory = new File("${JENKINS_HOME}/.${metarunner}/versions/")
+
+  directory.listFiles().each{
+    it.deleteDir()
+  }
 }

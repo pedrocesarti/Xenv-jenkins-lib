@@ -6,20 +6,19 @@ def call(version='6.14.4', method=null, cl) {
 
   print "Setting up NodeJS version ${version}!"
   
-  if (!fileExists("${JENKINS_HOME}/.nodenv/bin/nodenv")) {
+  if (!fileExists("${JENKINS_HOME}/.${metarunner}/bin/${metarunner}")) {
     installNodenv()
   }
 
-  if (!fileExists("${JENKINS_HOME}/.nodenv/versions/${version}/")) {
+  if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
      print "Installing NodeJS ${version}!!!"
      withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
        control.installVersion(metarunner, version)
      }
   }
 
-  withEnv(["PATH=${JENKINS_HOME}/.nodenv/shims:${JENKINS_HOME}/.nodenv/bin/:$PATH", "NODENV_SHELL=sh"]) {
-    sh "nodenv rehash"
-    sh "nodenv local ${version}"
+  withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/shims:${JENKINS_HOME}/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
+    sh "${metarunner} rehash && ${metarunner} local ${version}"
     cl()
   }
 
@@ -32,15 +31,7 @@ def call(version='6.14.4', method=null, cl) {
 }
 
 def installNodenv() {
-  print "Lets install Nodenv!!!"
-  sh '''
-     git clone https://github.com/nodenv/nodenv.git ${JENKINS_HOME}/.nodenv
-     git clone https://github.com/nodenv/node-build.git ${JENKINS_HOME}/.nodenv/plugins/node-build
-  '''
-
-  dir ("${JENKINS_HOME}/.nodenv") {
-    sh "src/configure --without-ssl && make -C src"     
-  }
+  control.installMetarunner(metarunner)
 }
 
 def purgeAll() {
