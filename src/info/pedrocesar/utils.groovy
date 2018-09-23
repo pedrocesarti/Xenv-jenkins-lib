@@ -21,8 +21,9 @@ def installMetarunner(String metarunner){
 
 @NonCPS
 def installVersion(String metarunner, String version) {
-  sh "${metarunner} install ${version}"
-  print "${metarunner} install ${version}"
+  withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+    sh "${metarunner} install ${version}"
+  }
 }
 
 @NonCPS
