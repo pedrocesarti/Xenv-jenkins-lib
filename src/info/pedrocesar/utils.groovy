@@ -1,8 +1,6 @@
 #!/usr/bin/groovy
-
 package info.pedrocesar
 import com.cloudbees.groovy.cps.NonCPS
-
 
 @NonCPS
 def purgeAllVersions(metarunner=null) {
