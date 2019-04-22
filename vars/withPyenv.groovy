@@ -6,24 +6,24 @@ def call(version='3.7.0', method=null, cl) {
 
   print "Setting up Python version ${version}!"
   
-  if (!fileExists("${JENKINS_HOME}/.${metarunner}/bin/${metarunner}")) {
+  if (!fileExists("$HOME/.${metarunner}/bin/${metarunner}")) {
     installPyenv(metarunner)
   }
 
-  if (!fileExists("${JENKINS_HOME}/.${metarunner}/versions/${version}/")) {
-    withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+  if (!fileExists("$HOME/.${metarunner}/versions/${version}/")) {
+    withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.installVersion(metarunner, version)
     }
   }
 
-  withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/shims:${JENKINS_HOME}/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
+  withEnv(["PATH=$HOME/.${metarunner}/shims:$HOME/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
     sh "${metarunner} rehash && ${metarunner} local ${version}"
     cl()
   }
 
   if (method == 'clean') {
     print "Removing Python ${version}!!!"
-    withEnv(["PATH=${JENKINS_HOME}/.${metarunner}/bin/:$PATH"]) {
+    withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.deleteVersion(metarunner, version)
     }
   } 
