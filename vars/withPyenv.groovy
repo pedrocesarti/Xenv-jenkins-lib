@@ -11,6 +11,9 @@ def call(version='3.7.0', method=null, cl) {
   }
 
   if (!fileExists("$HOME/.${metarunner}/versions/${version}/")) {
+    if (!fileExists("$HOME/.${metarunner}/plugins/python-build/share/python-build/${version}")) {
+      sh "cd $HOME/.${metarunner} && git pull && cd -"
+    }
     withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.installVersion(metarunner, version)
     }

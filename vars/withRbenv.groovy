@@ -12,6 +12,9 @@ def call(version='2.5.1', method=null, cl) {
   }
 
   if (!fileExists("$HOME/.${metarunner}/versions/${version}/")) {
+    if (!fileExists("$HOME/.${metarunner}/plugins/ruby-build/share/ruby-build/${version}")) {
+      sh "cd $HOME/.${metarunner}/plugins/ruby-build && git pull && cd -"
+    }
     withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.installVersion(metarunner, version)
     }
