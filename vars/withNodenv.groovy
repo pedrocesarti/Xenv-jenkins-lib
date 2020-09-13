@@ -18,7 +18,7 @@ def call(version='6.14.4', method=null, cl) {
   }
 
   withEnv(["PATH=$HOME/.${metarunner}/shims:$HOME/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
-    sh "[ ! -f $HOME/.${metarunner}/shims/.${metarunner}-shim  ] && ${metarunner} rehash"
+    sh "if [[ ! -f $HOME/.${metarunner}/shims/.${metarunner}-shim  ]]; then ${metarunner} rehash; fi"
     sh "${metarunner} local ${version}"
     cl()
   }
