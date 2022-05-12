@@ -1,3 +1,7 @@
+:rotating_light: This project is outdated/abandoned/archived and will not be updated anymore. :rotating_light:
+
+-------------
+
 # Xenv-jenkins-lib
 
 For those who are:
