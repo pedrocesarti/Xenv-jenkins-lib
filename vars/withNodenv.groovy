@@ -12,6 +12,9 @@ def call(version='6.14.4', method=null, cl) {
   }
 
   if (!fileExists("$HOME/.${metarunner}/versions/${version}/")) {
+    if (!fileExists("$HOME/.${metarunner}/plugins/node-build/share/node-build/${version}")) {
+      sh "cd $HOME/.${metarunner}/plugins/node-build && git pull && cd -"
+    }
     withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.installVersion(metarunner, version)
     }
