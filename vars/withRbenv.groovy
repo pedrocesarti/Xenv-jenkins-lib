@@ -5,7 +5,7 @@ def call(version='2.5.1', method=null, cl) {
   def utils = new info.pedrocesar.utils()
 
   print "Setting up Ruby version ${version}!"
-  
+
   if (!fileExists("$HOME/.${metarunner}/bin/${metarunner}")) {
     installRbenv(metarunner)
     sh "git clone https://github.com/${metarunner}/ruby-build.git $HOME/.${metarunner}/plugins/ruby-build"
@@ -18,7 +18,8 @@ def call(version='2.5.1', method=null, cl) {
   }
 
   withEnv(["PATH=$HOME/.${metarunner}/shims:$HOME/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
-    sh "${metarunner} rehash && ${metarunner} local ${version}"
+    sh "if [[ ! -f $HOME/.${metarunner}/shims/.${metarunner}-shim  ]]; then ${metarunner} rehash; fi"
+    sh "${metarunner} local ${version}"
     cl()
   }
 
@@ -27,7 +28,7 @@ def call(version='2.5.1', method=null, cl) {
     withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.deleteVersion(metarunner, version)
     }
-  } 
+  }
 }
 
 def installRbenv(metarunner) {

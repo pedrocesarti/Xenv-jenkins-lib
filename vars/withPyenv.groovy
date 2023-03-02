@@ -5,7 +5,7 @@ def call(version='3.7.0', method=null, cl) {
   def utils = new info.pedrocesar.utils()
 
   print "Setting up Python version ${version}!"
-  
+
   if (!fileExists("$HOME/.${metarunner}/bin/${metarunner}")) {
     installPyenv(metarunner)
   }
@@ -17,7 +17,8 @@ def call(version='3.7.0', method=null, cl) {
   }
 
   withEnv(["PATH=$HOME/.${metarunner}/shims:$HOME/.${metarunner}/bin/:$PATH", "NODENV_SHELL=sh"]) {
-    sh "${metarunner} rehash && ${metarunner} local ${version}"
+    sh "if [[ ! -f $HOME/.${metarunner}/shims/.${metarunner}-shim  ]]; then ${metarunner} rehash; fi"
+    sh "${metarunner} local ${version}"
     cl()
   }
 
@@ -26,7 +27,7 @@ def call(version='3.7.0', method=null, cl) {
     withEnv(["PATH=$HOME/.${metarunner}/bin/:$PATH"]) {
       utils.deleteVersion(metarunner, version)
     }
-  } 
+  }
 }
 
 def installPyenv(metarunner) {
